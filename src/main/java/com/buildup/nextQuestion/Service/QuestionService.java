@@ -1,5 +1,7 @@
 package com.buildup.nextQuestion.Service;
 
+import com.buildup.nextQuestion.Repository.QuestionInfoByMemberRepository;
+import com.buildup.nextQuestion.domain.QuestionInfoByMember;
 import com.buildup.nextQuestion.domain.enums.QuestionType;
 import com.buildup.nextQuestion.dto.QuestionUpdateRequest;
 import com.buildup.nextQuestion.Repository.QuestionRepository;
@@ -23,6 +25,8 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private QuestionInfoByMemberRepository questionInfoByMemberRepository;
     //생성된 문제 리스트 저장
     public void saveAll(String jsonString) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,11 +66,11 @@ public class QuestionService {
     public void updateQuestion (List<QuestionUpdateRequest> updatedQuestions) {
         for(QuestionUpdateRequest request : updatedQuestions) {
             Long questionId = request.getQuestionId();
-           Question existingQuestion = questionRepository.findById(questionId).get(); //id로 Question객체 가져옴
+           QuestionInfoByMember existingQuestion = questionInfoByMemberRepository.findById(questionId).get(); //id로 Question객체 가져옴
             existingQuestion.setWrong(request.getWrong()); //객체 정답여부 update
             existingQuestion.setRecentSolveTime(request.getRecentSolveTime()); //객체 최근 시간 update
 
-            questionRepository.save(existingQuestion); //객체 저장
+            questionInfoByMemberRepository.save(existingQuestion); //객체 저장
         }
     }
 }
