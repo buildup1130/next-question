@@ -23,7 +23,7 @@ public class QuestionController {
     ) {
         try {
 
-            JsonNode jsonNode = questionGenerationFacade.generateQuestionGuest(file, numOfQuestions);
+            JsonNode jsonNode = questionGenerationFacade.generateQuestionByGuest(file, numOfQuestions);
             return ResponseEntity.ok(jsonNode);
 
         } catch (Exception e) {
